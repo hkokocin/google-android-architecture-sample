@@ -3,6 +3,7 @@ package com.example.hkokocin.gaa
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.inputmethod.InputMethodManager
 import com.example.hkokocin.gaa.adapter.WidgetAdapter
 import com.example.hkokocin.gaa.data.GitHubRepository
 import com.example.hkokocin.gaa.data.GitHubService
@@ -37,6 +38,8 @@ fun baseActivityScope(activity: Activity) = Kodein {
     bind<Context>() with singleton { activity }
     bind<Activity>() with singleton { activity }
     bind<LayoutInflater>() with singleton { activity.layoutInflater }
+
+    bind<InputMethodManager>() with singleton { activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager }
 
     bind<WidgetAdapter>() with provider { WidgetAdapter(instance()) }
 }

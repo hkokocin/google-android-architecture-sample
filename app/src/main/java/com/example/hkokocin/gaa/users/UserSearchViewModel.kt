@@ -2,6 +2,7 @@ package com.example.hkokocin.gaa.users
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.view.inputmethod.InputMethodManager
 import com.example.hkokocin.gaa.data.GitHubRepository
 import com.example.hkokocin.gaa.data.GitHubUser
 import io.reactivex.android.schedulers.AndroidSchedulers

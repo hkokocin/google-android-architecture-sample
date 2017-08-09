@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -22,6 +23,7 @@ class GitHubActivity : LifecycleActivity() {
 
     private val injector = gitHubActivityScope(this)
     private val adapter by lazy { injector.instance<WidgetAdapter>() }
+    private val inputMethodManager by lazy { injector.instance<InputMethodManager>() }
 
     private val rvResult: RecyclerView
             by lazy { findViewById<RecyclerView>(R.id.rv_result) }
@@ -50,8 +52,10 @@ class GitHubActivity : LifecycleActivity() {
 
         ivSearch.setOnClickListener {
             val search = etSearch.text.toString()
-            if (search.isNotBlank())
+            if (search.isNotBlank()) {
                 viewModel.searchUsers(search)
+                inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
+            }
         }
 
         rvResult.layoutManager = LinearLayoutManager(this)
