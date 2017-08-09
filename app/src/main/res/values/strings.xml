@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Google Android Architecture</string>
+    <string name="search_hint">Search github user</string>
+    <string name="avatar">Avatar</string>
+</resources>
