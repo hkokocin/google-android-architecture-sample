@@ -60,6 +60,6 @@ class WidgetAdapter(
     @Suppress("UNCHECKED_CAST")
     private fun <T> bindViewHolder(holder: RecyclerView.ViewHolder, item: T) {
         val viewHolder = holder as WidgetViewHolder<T>
-        viewHolder.widget.setData(item as T)
+        viewHolder.widget.setData(item)
     }
 }

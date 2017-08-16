@@ -1,9 +1,9 @@
 package com.example.hkokocin.gaa
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 
-abstract class BaseView {
-    lateinit var root: View
-
-    protected fun <T : View> viewId(resourcesId: Int): Lazy<T> = lazy { root.findViewById<T>(resourcesId) }
+interface BaseView {
+    fun createView(layoutInflater: LayoutInflater, parent: ViewGroup?): View
 }

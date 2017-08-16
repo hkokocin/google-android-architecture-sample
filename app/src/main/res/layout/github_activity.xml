@@ -1,69 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.hkokocin.gaa.users.GitHubActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/fl_search"
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="viewModel"
+            type="com.example.hkokocin.gaa.users.UserSearchViewModel"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:paddingEnd="@dimen/space_normal"
-        android:paddingStart="@dimen/space_normal"
-        android:paddingTop="@dimen/space_small">
+        android:layout_height="match_parent"
+        tools:context="com.example.hkokocin.gaa.users.GitHubActivity">
 
-        <EditText
-            android:id="@+id/et_search"
+        <FrameLayout
+            android:id="@+id/fl_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
-            android:textSize="24sp"
+            android:elevation="4dp"
+            android:paddingEnd="@dimen/space_normal"
+            android:paddingStart="@dimen/space_normal"
+            android:paddingTop="@dimen/space_small">
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint"
+                android:maxLines="1"
+                android:textSize="24sp"
+                android:afterTextChanged="@{viewModel::searchChanged}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:contentDescription="@string/search_hint"
+                android:paddingEnd="@dimen/space_normal"
+                android:src="@drawable/search"
+                app:layout_constraintBottom_toBottomOf="@id/et_search"
+                app:layout_constraintRight_toRightOf="@id/et_search"
+                app:layout_constraintTop_toTopOf="@id/et_search"
+                tools:ignore="RtlSymmetry"
+                />
+
+        </FrameLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fl_search"
+            bind:items="@{viewModel.users}"
+            />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.showProgress ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:maxLines="1"
             />
 
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:contentDescription="@string/search_hint"
-            android:paddingEnd="@dimen/space_normal"
-            android:src="@drawable/search"
-            app:layout_constraintBottom_toBottomOf="@id/et_search"
-            app:layout_constraintRight_toRightOf="@id/et_search"
-            app:layout_constraintTop_toTopOf="@id/et_search"
-            tools:ignore="RtlSymmetry"
-            />
-
-    </FrameLayout>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_result"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_search"
-        />
-
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

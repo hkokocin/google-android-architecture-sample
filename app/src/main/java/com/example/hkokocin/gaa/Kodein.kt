@@ -12,10 +12,10 @@ import com.example.hkokocin.gaa.adapter.WidgetAdapter
 import com.example.hkokocin.gaa.data.GitHubRepository
 import com.example.hkokocin.gaa.data.GitHubService
 import com.example.hkokocin.gaa.users.GitHubActivity
-import com.example.hkokocin.gaa.users.GitHubView
 import com.example.hkokocin.gaa.users.UserSearchViewModel
 import com.example.hkokocin.gaa.users.UserWidget
 import com.github.salomonbrys.kodein.*
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,8 +26,19 @@ private var applicationScope = Kodein {}
 fun initApplicationScope() {
     applicationScope = Kodein {
 
+        val client = OkHttpClient.Builder()
+                .addInterceptor {
+                    val request = it.request().newBuilder()
+                            .addHeader("User-Agent", "google-android-archtecture-sample")
+                            .build()
+
+                    it.proceed(request)
+                }
+                .build()
+
         val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
+                .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
@@ -54,7 +65,6 @@ fun gitHubActivityScope(activity: GitHubActivity) = Kodein {
 
     bind<UserWidget>() with provider { UserWidget(instance()) }
     bind<Lifecycle>() with singleton { activity.lifecycle }
-    bind<GitHubView>() with provider { GitHubView(instance(), instance(), provider(), instance(), instance()) }
 
     bind<UserSearchViewModel>() with singleton {
         ViewModelProviders
