@@ -1,7 +1,6 @@
 package com.example.hkokocin.gaa.data
 
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET

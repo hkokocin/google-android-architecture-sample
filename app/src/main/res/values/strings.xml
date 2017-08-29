@@ -2,4 +2,5 @@
     <string name="app_name">Google Android Architecture</string>
     <string name="search_hint">Search github user</string>
     <string name="avatar">Avatar</string>
+    <string name="search_failed">\"User search failed\"</string>
 </resources>

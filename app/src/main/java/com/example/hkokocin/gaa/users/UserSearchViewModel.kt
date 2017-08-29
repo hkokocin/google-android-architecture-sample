@@ -39,23 +39,20 @@ class UserSearchViewModel(
 
     val searchSubject = PublishSubject.create<String>()
     val searchFlowable = searchSubject
-            .toFlowable(BackpressureStrategy.LATEST)
-            .debounce(500, TimeUnit.MILLISECONDS)
-            .doOnNext { showProgress = true }
-            .flatMap {
-                repository.searchUser(it)
-                        .subscribeOn(Schedulers.io())
-                        .doOnError { it.printStackTrace() }
-                        .onErrorReturn { UserSearchResult(emptyList()) }
-            }
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnError { it.printStackTrace() }
-            .onErrorReturn { UserSearchResult(emptyList()) }
-            .subscribe { (items) ->
-                users = items
-                showProgress = false
-            }
-
+        .toFlowable(BackpressureStrategy.LATEST)
+        .debounce(500, TimeUnit.MILLISECONDS)
+        .doOnNext { showProgress = true }
+        .flatMap {
+            repository.searchUser(it)
+                .subscribeOn(Schedulers.io())
+                .doOnError { it.printStackTrace() }
+                .onErrorReturn { UserSearchResult(emptyList()) }
+        }
+        .observeOn(AndroidSchedulers.mainThread())
+        .doOnError { it.printStackTrace() }
+        .onErrorReturn { UserSearchResult(emptyList()) }
+        .doAfterTerminate { showProgress = false }
+        .subscribe { (items) -> users = items }
 
     fun searchChanged(text: Editable) {
         searchSubject.onNext(text.toString())
