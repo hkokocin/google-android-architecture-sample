@@ -2,6 +2,7 @@ package com.example.hkokocin.gaa.users
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.LifecycleObserver
+import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.OnLifecycleEvent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -17,7 +18,6 @@ class GitHubView(
         private val adapter: WidgetAdapter,
         private val inputMethodManager: InputMethodManager,
         private val userWidgetProvider: () -> UserWidget,
-        private val lifecycle: Lifecycle,
         private val viewModel: UserSearchViewModel
 ) : LifecycleObserver {
 
@@ -28,16 +28,18 @@ class GitHubView(
     private val ivSearch: ImageView by viewId(R.id.iv_search)
     private val progressBar: ProgressBar by viewId(R.id.progress)
 
+    private fun <T : View> viewId(resourcesId: Int): Lazy<T> = lazy { root.findViewById<T>(resourcesId) }
+
     //    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    //    fun onCreate() {
+    //    fun onCreate(lifecycleOwner: LifecycleOwner) {
     //
     //        viewModel.users.observe(
-    //                { lifecycle },
+    //                { lifecycleOwner.lifecycle },
     //                { adapter.setItems(it ?: emptyList()) }
     //        )
     //
     //        viewModel.showProgress.observe(
-    //                { lifecycle },
+    //                { lifecycleOwner.lifecycle },
     //                { progressBar.visibility = if (it == true) View.VISIBLE else View.GONE }
     //        )
     //
@@ -55,14 +57,14 @@ class GitHubView(
     //    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun observeUsers() = viewModel.users.observe(
-            { lifecycle },
+    fun observeUsers(lifecycleOwner: LifecycleOwner) = viewModel.users.observe(
+            { lifecycleOwner.lifecycle },
             { adapter.setItems(it ?: emptyList()) }
     )
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun observeProgress() = viewModel.showProgress.observe(
-            { lifecycle },
+    fun observeProgress(lifecycleOwner: LifecycleOwner) = viewModel.showProgress.observe(
+            { lifecycleOwner.lifecycle },
             { progressBar.visibility = if (it == true) View.VISIBLE else View.GONE }
     )
 
@@ -81,6 +83,4 @@ class GitHubView(
             inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
         }
     }
-
-    private fun <T : View> viewId(resourcesId: Int): Lazy<T> = lazy { root.findViewById<T>(resourcesId) }
 }
