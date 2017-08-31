@@ -25,20 +25,19 @@ class GitHubActivity : LifecycleActivity() {
     private val adapter by lazy { injector.instance<WidgetAdapter>() }
     private val inputMethodManager by lazy { injector.instance<InputMethodManager>() }
 
-    private val rvResult: RecyclerView
-            by lazy { findViewById<RecyclerView>(R.id.rv_result) }
-
-    private val etSearch: EditText by viewId(R.id.et_search)
-    private val ivSearch: ImageView by viewId(R.id.iv_search)
-    private val progressBar: ProgressBar by viewId(R.id.progress)
+    private val rvResult by lazy { findViewById<RecyclerView>(R.id.rv_result) }
+    private val etSearch by lazy { findViewById<EditText>(R.id.et_search) }
+    private val ivSearch by lazy { findViewById<ImageView>(R.id.iv_search) }
+    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.github_activity)
+        initRecyclerView()
 
         val viewModel = ViewModelProviders
-                .of(this, ViewModelFactory(injector))
-                .get(UserSearchViewModel::class.java)
+            .of(this, ViewModelFactory(injector))
+            .get(UserSearchViewModel::class.java)
 
         viewModel.users.observe(
                 { lifecycle },
@@ -57,7 +56,9 @@ class GitHubActivity : LifecycleActivity() {
                 inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
             }
         }
+    }
 
+    private fun initRecyclerView() {
         rvResult.layoutManager = LinearLayoutManager(this)
         rvResult.adapter = adapter
         adapter.addWidget { injector.instance<UserWidget>() }
