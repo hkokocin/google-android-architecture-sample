@@ -30,32 +30,6 @@ class GitHubView(
 
     private fun <T : View> viewId(resourcesId: Int): Lazy<T> = lazy { root.findViewById<T>(resourcesId) }
 
-    //    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    //    fun onCreate(lifecycleOwner: LifecycleOwner) {
-    //
-    //        viewModel.users.observe(
-    //                { lifecycleOwner.lifecycle },
-    //                { adapter.setItems(it ?: emptyList()) }
-    //        )
-    //
-    //        viewModel.showProgress.observe(
-    //                { lifecycleOwner.lifecycle },
-    //                { progressBar.visibility = if (it == true) View.VISIBLE else View.GONE }
-    //        )
-    //
-    //        ivSearch.setOnClickListener {
-    //            val search = etSearch.text.toString()
-    //            if (search.isNotBlank()) {
-    //                viewModel.searchUsers(search)
-    //                inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
-    //            }
-    //        }
-    //
-    //        rvResult.layoutManager = LinearLayoutManager(root.context)
-    //        rvResult.adapter = adapter
-    //        adapter.addWidget(userWidgetProvider)
-    //    }
-
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun observeUsers(lifecycleOwner: LifecycleOwner) = viewModel.users.observe(
             { lifecycleOwner.lifecycle },
@@ -83,4 +57,34 @@ class GitHubView(
             inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
         }
     }
+
+    //    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    //    fun onCreate(lifecycleOwner: LifecycleOwner) {
+    //
+    //        val state = lifecycleOwner.lifecycle.currentState
+    //        if(state == Lifecycle.State.STARTED)
+    //            if(state.isAtLeast(Lifecycle.State.CREATED))
+    //
+    //                viewModel.users.observe(
+    //                        { lifecycleOwner.lifecycle },
+    //                        { adapter.setItems(it ?: emptyList()) }
+    //                )
+    //
+    //        viewModel.showProgress.observe(
+    //                { lifecycleOwner.lifecycle },
+    //                { progressBar.visibility = if (it == true) View.VISIBLE else View.GONE }
+    //        )
+    //
+    //        ivSearch.setOnClickListener {
+    //            val search = etSearch.text.toString()
+    //            if (search.isNotBlank()) {
+    //                viewModel.searchUsers(search)
+    //                inputMethodManager.hideSoftInputFromWindow(etSearch.windowToken, 0)
+    //            }
+    //        }
+    //
+    //        rvResult.layoutManager = LinearLayoutManager(root.context)
+    //        rvResult.adapter = adapter
+    //        adapter.addWidget(userWidgetProvider)
+    //    }
 }
