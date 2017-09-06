@@ -54,7 +54,7 @@ fun gitHubActivityScope(activity: GitHubActivity) = Kodein {
 
     bind<UserWidget>() with provider { UserWidget(instance()) }
     bind<Lifecycle>() with singleton { activity.lifecycle }
-    bind<GitHubView>() with provider { GitHubView(instance(), instance(), provider(), instance(), instance()) }
+    bind<GitHubView>() with provider { GitHubView(instance(), instance(), provider(), instance()) }
 
     bind<UserSearchViewModel>() with singleton {
         ViewModelProviders

@@ -21,10 +21,6 @@ class UserSearchViewModel(
 
     val state = MutableLiveData<UserSearchViewState>()
 
-//    init {
-//        state.value = UserSearchViewState()
-//    }
-
     private val disposables = CompositeDisposable()
 
     fun searchUsers(search: String) {
@@ -35,14 +31,6 @@ class UserSearchViewModel(
             .onErrorReturn { state.value.error() }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { state.value = it }
-
-//        repository.searchUser(search)
-//            .map { (items) -> UserSearchViewState(items) }
-//            .subscribeOn(Schedulers.io())
-//            .startWith(state.value!!.copy(showProgress = true))
-//            .onErrorReturn { state.value!!.copy(errorResourceId = R.string.search_failed) }
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe { state.value = it }
     }
 
     override fun onCleared() {
@@ -53,5 +41,3 @@ class UserSearchViewModel(
 
 fun UserSearchViewState?.progress() = this?.copy(showProgress = true) ?: UserSearchViewState(showProgress = false)
 fun UserSearchViewState?.error() = UserSearchViewState(this?.users ?: emptyList(), false, R.string.search_failed)
-
-// liveData.postValue() instead of observeOn()

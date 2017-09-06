@@ -1,8 +1,6 @@
 package com.example.hkokocin.gaa.users
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.*
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -18,7 +16,6 @@ class GitHubView(
         private val adapter: WidgetAdapter,
         private val inputMethodManager: InputMethodManager,
         private val userWidgetProvider: () -> UserWidget,
-        private val lifecycle: Lifecycle,
         private val viewModel: UserSearchViewModel
 ) : LifecycleObserver {
 
@@ -46,9 +43,9 @@ class GitHubView(
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun observeData() = viewModel.state.observe(
-            { lifecycle },
-            { it?.apply { updateViews(this) } }
+    fun observeData(lifecycleOwner: LifecycleOwner) = viewModel.state.observe(
+            lifecycleOwner,
+            Observer { it?.apply { updateViews(this) } }
     )
 
     private fun updateViews(state: UserSearchViewState) {
